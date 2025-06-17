@@ -3,12 +3,72 @@
  */
 package retrocode;
 
+import javax.swing.*;
+import java.awt.*;
+import java.io.*;
+import org.fife.ui.rsyntaxtextarea.*;
+import org.fife.ui.rtextarea.*;
+
 public class App {
-    public String getGreeting() {
-        return "Hello World!";
-    }
 
     public static void main(String[] args) {
-        System.out.println(new App().getGreeting());
+        SwingUtilities.invokeLater(() -> {
+            try {
+            UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatDarkLaf());
+            } catch (Exception e) {
+            System.err.println("sorry, cant make it Beautiful ");
+            }
+
+            JFrame frame = new JFrame("RetroCOde ");
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setSize(800, 600);
+
+            RSyntaxTextArea textSyntax = new RSyntaxTextArea();
+            textSyntax.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_ACTIONSCRIPT);
+            textSyntax.setCodeFoldingEnabled(true);
+
+            RTextScrollPane scrollPane = new RTextScrollPane(textSyntax);
+            frame.add(scrollPane);
+
+            JMenuBar menuBar = new JMenuBar();
+            JMenu menu = new JMenu("SAVE THE FILES HERE ");
+
+            JMenuItem open = new JMenuItem("new");
+
+            open.addActionListener(e -> {
+            JFileChooser chooser =  new JFileChooser();
+            if (chooser.showOpenDialog(frame) ==  JFileChooser.APPROVE_OPTION) {
+                File file = chooser.getSelectedFile();
+
+                try {
+                textSyntax.read(new FileReader(file), null);
+                }
+                catch (IOException ex) {
+                JOptionPane.showMessageDialog(frame, " Error opening this file");
+                }
+            }
+            });
+
+            JMenuItem save = new JMenuItem(" SAVE");
+            
+            save.addActionListener(e -> {
+            JFileChooser chooser = new JFileChooser();
+            if (chooser.showSaveDialog(frame) == JFileChooser.APPROVE_OPTION) {
+                File file = chooser.getSelectedFile();
+                try {
+                textSyntax.write(new FileWriter(file));
+                } catch (IOException ex) {
+                JOptionPane.showMessageDialog(frame, " Sike Can't save your File !");
+                }
+            }
+            });
+
+            menu.add(open);
+            menu.add(save);
+            menuBar.add(menu);
+            frame.setJMenuBar(menuBar);
+
+            frame.setVisible(true);
+        });
     }
 }
