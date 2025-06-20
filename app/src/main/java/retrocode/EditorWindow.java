@@ -13,16 +13,17 @@ public class EditorWindow {
         try {
             UIManager.setLookAndFeel(new com.formdev.flatlaf.FlatDarkLaf());
         } catch (Exception e) {
-            System.err.println("Sike Cant load Your shit !");
+            System.err.println("Could not load dark theme.");
         }
-        frame = new JFrame();
+
+        frame = new JFrame("RetroCode - Untitled");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800,600);
+        frame.setSize(800, 600);
 
         editor = new RetroTextArea();
-        frame.add(editor.getSrcollPanel(), BorderLayout.CENTER);
+        frame.add(editor.getScrollPane(), BorderLayout.CENTER);
 
-        frame.setJMenuBar(FileManger.buildMenu(frame, editor));
+        frame.setJMenuBar(FileManager.buildMenu(frame, editor));
         frame.setVisible(true);
     }
 }
