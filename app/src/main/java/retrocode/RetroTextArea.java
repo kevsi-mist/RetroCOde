@@ -12,7 +12,7 @@ public class RetroTextArea {
 
     public RetroTextArea() {
         textarea = new RSyntaxTextArea(20, 60);
-        textarea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_JAVA);
+        textarea.setSyntaxEditingStyle(SyntaxConstants.SYNTAX_STYLE_ACTIONSCRIPT);
         textarea.setCodeFoldingEnabled(true);
         textarea.setFont(new Font("JetBrains Mono", Font.PLAIN, 14));
 
